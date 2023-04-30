@@ -49,17 +49,17 @@ const updateFunctionData = async (request, response) => {
     const updatedAt = new Date();
 
     // finish them wnat y our deploy
-    // const functionRef = db
-    //   .collection("functions")
-    //   .where("functionName", "==", functionName);
-    // // .where(admin.firestore.FieldPath.documentId(), "!=", functionId); add it when deploy
-    // const functionSnapshot = await functionRef.get();
-    // if (!functionSnapshot.empty) {
-    //   response.status(409).json({
-    //     error: `Function name '${functionName}' already exists.`,
-    //   });
-    //   return;
-    // }
+    const functionRef = db
+      .collection("functions")
+      .where("functionName", "==", functionName);
+    // .where(admin.firestore.FieldPath.documentId(), "!=", functionId); add it when deploy
+    const functionSnapshot = await functionRef.get();
+    if (!functionSnapshot.empty) {
+      response.status(409).json({
+        error: `Function name '${functionName}' already exists.`,
+      });
+      return;
+    }
 
     await db.collection("functions").doc(functionId).update({
       functionName,

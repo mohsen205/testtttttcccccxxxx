@@ -1,5 +1,8 @@
 const { db } = require("../utils/admin");
-const { mapShiftDataWithClientNames } = require("../utils/utils");
+const {
+  mapShiftDataWithClientNames,
+  mapShiftDataWithFunctionNames,
+} = require("../utils/utils");
 
 // create shift
 const createShift = async (request, response) => {
@@ -113,7 +116,14 @@ const getShiftsData = async (request, response) => {
   try {
     const shiftRef = db.collection("shifts").orderBy("createdAt", "desc");
     const clientSnapshot = await db.collection("clients").get();
+    const functionSnapShot = await db.collection("functions").get();
+
     const clientsData = clientSnapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+
+    const functionsData = functionSnapShot.docs.map((doc) => ({
       id: doc.id,
       ...doc.data(),
     }));
@@ -124,8 +134,11 @@ const getShiftsData = async (request, response) => {
       id: doc.id,
       ...doc.data(),
     }));
+
     const data = mapShiftDataWithClientNames(shiftsData, clientsData);
-    response.status(200).json(data);
+    const finalData = mapShiftDataWithFunctionNames(data, functionsData);
+
+    response.status(200).json(finalData);
   } catch (error) {
     response.status(500).json({ error: error.message });
   }

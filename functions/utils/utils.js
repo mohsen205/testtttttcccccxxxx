@@ -27,8 +27,21 @@ const mapShiftDataWithClientNames = (shiftsData, clientData) => {
   });
 };
 
+const mapShiftDataWithFunctionNames = (shiftsData, functionData) => {
+  return shiftsData.map((shift) => {
+    const matchingFunction = functionData.find(
+      (func) => func.id === shift.requestedPosition
+    );
+    const functionName = matchingFunction
+      ? matchingFunction.functionName
+      : shift.requestedPosition;
+    return { ...shift, requestedPosition: functionName };
+  });
+};
+
 module.exports = {
   generatePassword,
   getFileNameFromStorageUrl,
   mapShiftDataWithClientNames,
+  mapShiftDataWithFunctionNames,
 };
