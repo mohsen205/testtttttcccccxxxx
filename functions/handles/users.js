@@ -35,10 +35,8 @@ const createUser = async (request, response) => {
       functionId,
       role = "worker",
       address,
-      codePostal,
       birthdayDate,
       comment,
-      registrationNumber,
     } = fields;
 
     const displayName = `${firstName} ${lastName}`;
@@ -64,9 +62,8 @@ const createUser = async (request, response) => {
       lastName,
       address,
       birthdayDate,
-      codePostal,
       comment,
-      registrationNumber,
+      registrationNumber: `BS-${uid}`,
       createdAt: new Date(),
       updatedAt: null,
     });

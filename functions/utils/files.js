@@ -20,6 +20,7 @@ const uploadImage = (request) => {
     let imageFileName;
     let imageToBeUploaded = {};
     busboy.on("file", (fieldname, file, filename, encoding, mimetype) => {
+      console.log(fieldname, file, filename, encoding, mimetype);
       const imageExtension = getImageExtension(filename);
       imageFileName = `${uuid()}${imageExtension}`;
 
