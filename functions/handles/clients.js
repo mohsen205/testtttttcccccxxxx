@@ -32,7 +32,6 @@ const createClient = async (req, res) => {
   const newClient = {
     adresse: req.body.adresse,
     client: req.body.client,
-    location: req.body.location,
     phoneNumber: req.body.phoneNumber,
     responsable: req.body.responsable,
     website: req.body.website,
@@ -54,7 +53,6 @@ const createClient = async (req, res) => {
       return db.collection("clients").add({
         adresse: newClient.adresse,
         client: newClient.client,
-        location: newClient.location,
         phoneNumber: newClient.phoneNumber,
         responsable: newClient.responsable,
         website: newClient.website,
@@ -83,7 +81,6 @@ const updateClient = async (req, res) => {
   const updatedClient = {
     adresse: req.body.adresse,
     client: req.body.client,
-    location: req.body.location,
     phoneNumber: req.body.phoneNumber,
     responsable: req.body.responsable,
     website: req.body.website,
