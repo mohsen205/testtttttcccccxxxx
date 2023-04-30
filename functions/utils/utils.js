@@ -39,9 +39,17 @@ const mapShiftDataWithFunctionNames = (shiftsData, functionData) => {
   });
 };
 
+const mapUserDataWithFunctionNames = (functionData, userData) => {
+  const functionId = userData.functionId;
+  const functionInfo = functionData.find((func) => func.id === functionId);
+  userData.functionId = functionInfo.functionName;
+  return userData;
+};
+
 module.exports = {
   generatePassword,
   getFileNameFromStorageUrl,
   mapShiftDataWithClientNames,
   mapShiftDataWithFunctionNames,
+  mapUserDataWithFunctionNames,
 };

@@ -2,6 +2,7 @@ const { admin, db } = require("../utils/admin");
 const {
   generatePassword,
   getFileNameFromStorageUrl,
+  mapUserDataWithFunctionNames,
 } = require("../utils/utils");
 
 const auth = admin.auth();
@@ -193,8 +194,18 @@ const getUserData = async (request, response) => {
     }
 
     const userData = userDoc.data();
+
     delete userData.uid;
-    response.status(200).json({ userData });
+
+    const functionSnapShot = await db.collection("functions").get();
+    const functionsData = functionSnapShot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+
+    const data = mapUserDataWithFunctionNames(functionsData, userData);
+
+    response.status(200).json({ userData: data });
   } catch (error) {
     response.status(500).json({ error: error.message });
   }
@@ -216,7 +227,9 @@ const getUsersData = async (request, response) => {
         ...doc.data(),
       };
     });
+
     usersData.map((userData) => delete userData.uid);
+
     response.status(200).json(usersData);
   } catch (error) {
     if (error.response) {
